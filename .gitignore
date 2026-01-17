@@ -1,0 +1,22 @@
+# Dependencies
+**/node_modules/
+
+# Environment files (keep templates)
+**/.env
+**/.env.*
+!**/.env.example
+
+# Logs
+**/*.log
+
+# OS / tooling noise
+.DS_Store
+Thumbs.db
+
+# Coverage / build output (if added later)
+coverage/
+dist/
+.cache/
+
+# This repo intentionally includes SQL dumps under Database/
+!Database/**/*.sql
