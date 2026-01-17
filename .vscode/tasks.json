@@ -1,0 +1,112 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "AWAV: Setup (npm install)",
+            "type": "shell",
+            "command": "npm",
+            "args": [
+                "install"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "AWAV: Start Site (Node on :4000)",
+            "type": "shell",
+            "command": "npm",
+            "args": [
+                "start"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PORT": "4000"
+                }
+            },
+            "isBackground": true,
+            "problemMatcher": [
+                {
+                    "pattern": [
+                        {
+                            "regexp": ".*",
+                            "file": 1,
+                            "line": 2,
+                            "column": 3,
+                            "message": 4
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": "^>.*(start|dev)$|^>.*node\\s+index\\.js$|^>.*node\\s+\\.\\/src\\/index\\.js$",
+                        "endsPattern": "Running on port:\\s+4000\\.\\.\\.|Running on port:\\s+4000"
+                    }
+                }
+            ]
+        },
+        {
+            "label": "AWAV: Open Site in Browser",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "start",
+                "",
+                "http://ancientwhitearmyvet2020.localhost:4000"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "AWAV: Stop Site (free :4000)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "$p=4000; $lines = netstat -aon | Select-String -Pattern (':'+$p+'\\s') | Select-String -Pattern 'LISTENING'; if (-not $lines) { Write-Host ('No listener on port '+$p); exit 0 }; $procIds = $lines | ForEach-Object { ($_.Line -split '\\s+')[-1] } | Sort-Object -Unique; foreach ($procId in $procIds) { Write-Host ('Stopping PID '+$procId+' on :'+$p); Stop-Process -Id $procId -Force -ErrorAction SilentlyContinue }; exit 0"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "AWAV: Start XAMPP + Site + Open Browser",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "XAMPP: Start",
+                "AWAV: Setup (npm install)",
+                "AWAV: Stop Site (free :4000)",
+                "AWAV: Start Site (Node on :4000)",
+                "AWAV: Open Site in Browser"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}

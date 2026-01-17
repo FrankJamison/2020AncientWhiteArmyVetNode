@@ -18,5 +18,9 @@ coverage/
 dist/
 .cache/
 
+# This repo intentionally commits VS Code tasks for one-click local setup
+!.vscode/
+!.vscode/tasks.json
+
 # This repo intentionally includes SQL dumps under Database/
 !Database/**/*.sql
