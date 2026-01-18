@@ -1,4 +1,4 @@
-﻿// Load local environment variables from .env (no-op if dotenv isn't installed).
+// Load local environment variables from .env (no-op if dotenv isn't installed).
 // In production, prefer setting real env vars via your host's config.
 try {
     require('dotenv').config();
@@ -24,6 +24,11 @@ const {
 const app = express();
 // Local dev default per README: http://localhost:4000
 const port = process.env.PORT || 4000;
+// Optional: bind to a specific interface (recommended for production behind a reverse proxy).
+// Examples:
+//   HOST=127.0.0.1   (localhost-only, safest)
+//   HOST=0.0.0.0     (all interfaces)
+const bindHost = process.env.HOST || process.env.BIND_HOST;
 const logLevel = process.env.LOG_LEVEL || 'dev';
 const env = process.env.NODE_ENV;
 
@@ -106,6 +111,12 @@ app.use(error404);
 app.use(error500);
 
 // listen on server port
-app.listen(port, () => {
-    console.log(`Running on port: ${port}...`);
-});
+if (bindHost) {
+    app.listen(port, bindHost, () => {
+        console.log(`Running on ${bindHost}:${port}...`);
+    });
+} else {
+    app.listen(port, () => {
+        console.log(`Running on port: ${port}...`);
+    });
+}

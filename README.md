@@ -127,6 +127,7 @@ The API supports environment variables (especially for production). Template:
 Common vars:
 
 - `PORT` (default `4000`)
+- `HOST` (optional bind host; use `127.0.0.1` in production behind a reverse proxy)
 - `DB_HOST` (default local is `127.0.0.1`)
 - `DB_PORT` (default `3306`)
 - `DB_DATABASE` (default `ancientwhitearmyvet`)
